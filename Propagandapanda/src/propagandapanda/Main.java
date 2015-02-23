@@ -6,17 +6,23 @@
 
 package propagandapanda;
 
+import propagandapanda.gui.FatalErrorWindow;
+
 /**
  *
  * @author Michi
  */
-public class Propagandapanda {
+public class Main {
 
   /**
    * @param args the command line arguments
    */
   public static void main(String[] args) {
+     try{
     // TODO code application logic here
+      }catch(Throwable e){
+          FatalErrorWindow few = new FatalErrorWindow(e);
+      }
   }
   
 }
