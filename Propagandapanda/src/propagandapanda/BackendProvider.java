@@ -18,8 +18,8 @@ import javax.swing.JPanel;
 public interface BackendProvider {
     /**
      * 
-     * @param text can be null
-     * @param header can be null
+     * @param text can be an empty String
+     * @param header can be an empty String
      */
     public void newPost(String text, String header);
     
@@ -68,5 +68,5 @@ public interface BackendProvider {
     
     public JPanel getAddPanel();
     
-    
+    public String getDescription();
 }
