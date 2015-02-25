@@ -6,6 +6,7 @@
 
 package propagandapanda;
 
+import propagandapanda.backendprovider.BackendProvider;
 import java.util.ArrayList;
 
 /**
@@ -16,5 +17,3 @@ public class MainViewModel {
     public ArrayList<BackendProvider> providerList;
     
 }
-
-// test test blub

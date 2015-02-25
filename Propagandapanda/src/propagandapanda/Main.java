@@ -6,7 +6,10 @@
 
 package propagandapanda;
 
+import java.util.ArrayList;
+import propagandapanda.backendprovider.DemoBackendProvider;
 import propagandapanda.gui.FatalErrorWindow;
+import propagandapanda.gui.MainView;
 
 /**
  *
@@ -18,11 +21,25 @@ public class Main {
    * @param args the command line arguments
    */
   public static void main(String[] args) {
-     try{
-    // TODO code application logic here
-      }catch(Throwable e){
-          FatalErrorWindow few = new FatalErrorWindow(e);
-      }
+//     try{
+    
+         MainViewModel mvm = new MainViewModel();
+         mvm.providerList = new ArrayList<>();
+         mvm.providerList.add(new DemoBackendProvider());
+         mvm.providerList.add(new DemoBackendProvider());
+         mvm.providerList.add(new DemoBackendProvider());
+         mvm.providerList.add(new DemoBackendProvider());
+         mvm.providerList.add(new DemoBackendProvider());
+         mvm.providerList.add(new DemoBackendProvider());
+         mvm.providerList.add(new DemoBackendProvider());
+         
+         MainView mv = new MainView(mvm);
+         mv.setVisible(true);
+         
+//         
+//      }catch(Throwable e){
+//          FatalErrorWindow few = new FatalErrorWindow(e);
+//      }
   }
   
 }

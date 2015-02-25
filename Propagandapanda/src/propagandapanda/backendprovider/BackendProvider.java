@@ -4,18 +4,20 @@
  * and open the template in the editor.
  */
 
-package propagandapanda;
+package propagandapanda.backendprovider;
 
 import java.io.File;
 import java.io.Serializable;
 import java.net.URI;
 import javax.swing.JPanel;
+import propagandapanda.LoadException;
+import propagandapanda.SendException;
 
 /**
  *
  * @author Michi
  */
-public interface BackendProvider {
+public interface BackendProvider extends Serializable{
     /**
      * 
      * @param text can be an empty String
@@ -56,11 +58,7 @@ public interface BackendProvider {
      * @return
      * @throws SendException 
      */
-    public void send() throws SendException;
-    
-    public Serializable saveData();
-    
-    public void loadData(Serializable accountInfo) throws LoadException;
+    public boolean send() throws SendException;
     
     public JPanel getDetailPanel();
     
@@ -68,5 +66,5 @@ public interface BackendProvider {
     
     public JPanel getAddPanel();
     
-    public String getDescription();
+    public String getName();
 }
