@@ -5,18 +5,18 @@
  */
 package propagandapanda.backendprovider;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.io.File;
 import java.net.URI;
+import java.util.Random;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import propagandapanda.SendException;
 
 /**
  *
@@ -75,7 +75,10 @@ public class DemoBackendProvider implements BackendProvider{
     @Override
     public JPanel getEditPanel() {
         JPanel ret = new JPanel();
-        ret.add(new JButton("This ist nur eine Demodarstellung - Edit"));
+        if(new Random().nextInt(2) == 0)
+            ret.add(new JButton("This ist nur eine Demodarstellung - Edit"));
+        else
+            ret.add(new JLabel("This ist nur eine Demodarstellung - Edit"));
         return ret;
     }
 

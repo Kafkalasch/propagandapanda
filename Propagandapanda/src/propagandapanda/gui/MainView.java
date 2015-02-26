@@ -6,14 +6,13 @@
 
 package propagandapanda.gui;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import propagandapanda.backendprovider.BackendProvider;
-import javax.swing.JPanel;
 import propagandapanda.*;
 
 /**
@@ -23,7 +22,8 @@ import propagandapanda.*;
 public class MainView extends javax.swing.JFrame {
 
     
-    public final MainViewModel model;
+    public MainViewModel model;
+    private int activeCheckBoxes = 0;
     
     private HashMap<JCheckBox, BackendProvider> cb2prov;
     /**
@@ -33,17 +33,24 @@ public class MainView extends javax.swing.JFrame {
     public MainView(MainViewModel model) {
         initComponents();
         this.model = model;
+        UpdateCheckBoxes();
         
+    }
+
+    private void UpdateCheckBoxes(){
         cb2prov = new HashMap<>((int) (model.providerList.size()/0.75 + 1));
-        
+        providerPanel.removeAll();
         JCheckBox cb;
         for(BackendProvider prov : model.providerList){
             cb = new JCheckBox(prov.getName(), false);
+            cb.addItemListener(new JCheckBoxListener());
             cb2prov.put(cb, prov);
             providerPanel.add(cb);
         }
+        providerPanel.revalidate();
+        providerPanel.repaint();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -62,9 +69,10 @@ public class MainView extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jSplitPane2 = new javax.swing.JSplitPane();
         jPanel4 = new javax.swing.JPanel();
-        providerPanel = new javax.swing.JPanel();
         nextButton = new javax.swing.JButton();
         settingsButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        providerPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         textArea = new javax.swing.JTextArea();
 
@@ -83,9 +91,8 @@ public class MainView extends javax.swing.JFrame {
         jSplitPane2.setDividerLocation(200);
         jSplitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
-        providerPanel.setLayout(new javax.swing.BoxLayout(providerPanel, javax.swing.BoxLayout.Y_AXIS));
-
         nextButton.setText("Next");
+        nextButton.setEnabled(false);
         nextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nextButtonActionPerformed(evt);
@@ -99,12 +106,16 @@ public class MainView extends javax.swing.JFrame {
             }
         });
 
+        providerPanel.setLayout(new javax.swing.BoxLayout(providerPanel, javax.swing.BoxLayout.Y_AXIS));
+        jScrollPane1.setViewportView(providerPanel);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(providerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jScrollPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(settingsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -113,12 +124,14 @@ public class MainView extends javax.swing.JFrame {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(providerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(settingsButton)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(settingsButton))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
 
@@ -142,7 +155,7 @@ public class MainView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(headerField))
                     .addComponent(jLabel2)
-                    .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE))
+                    .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -155,7 +168,7 @@ public class MainView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -179,10 +192,13 @@ public class MainView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsButtonActionPerformed
-        new SettingsView(this);
+        SettingsView sv = new SettingsView(this);
+        this.model = sv.model;
+        UpdateCheckBoxes();
     }//GEN-LAST:event_settingsButtonActionPerformed
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+        
         String text = textArea.getText();
         String header = headerField.getText();
         ArrayList<BackendProvider> activeProvider = new ArrayList<>();
@@ -197,7 +213,25 @@ public class MainView extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_nextButtonActionPerformed
 
-    
+    private class JCheckBoxListener implements ItemListener{
+
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            JCheckBox cb = (JCheckBox) e.getItem();
+            if(cb.isSelected()){
+               activeCheckBoxes++;
+               if(activeCheckBoxes > 0){
+                   nextButton.setEnabled(true);
+               }
+            }else{
+                activeCheckBoxes--;
+                if(activeCheckBoxes == 0){
+                    nextButton.setEnabled(false);
+                }
+            }
+        }
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField headerField;
@@ -205,6 +239,7 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane jSplitPane1;
