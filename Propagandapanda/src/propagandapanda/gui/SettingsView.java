@@ -20,9 +20,9 @@ import propagandapanda.backendprovider.BackendProvider;
  */
 public class SettingsView extends javax.swing.JDialog {
 
-    public final MainViewModel model;
+    public final MainViewModel mainViewModel;
     
-    private final DefaultListModel<BackendProvider> listModel;
+    private DefaultListModel<BackendProvider> listModel;
  
     /**
      * Creates new form test
@@ -30,24 +30,23 @@ public class SettingsView extends javax.swing.JDialog {
      */
     public SettingsView(MainView mv) {
         super(mv, true);
-        model = mv.model;
-        listModel = new DefaultListModel<>();
-        for(BackendProvider prov : model.providerList)
-            listModel.addElement(prov);
-        
+        mainViewModel = mv.model;
+        setListModel();
         initComponents();
-        list.addListSelectionListener(new ListSelectionListener(){
-
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                selectedProvChanged(e);
-            }
-        });
-        list.setCellRenderer(new BackendProviderRenderer());
+        
         this.setVisible(true);
     }
     
-    public void selectedProvChanged(ListSelectionEvent e) {
+    private void setListModel(){
+        listModel = new DefaultListModel<>();
+        for(BackendProvider prov : mainViewModel.providerList)
+            listModel.addElement(prov);
+        if(list != null){
+            list.setModel(listModel);
+        }
+    }
+    
+    private void selectedProvChanged(ListSelectionEvent e) {
 //        if (e.getValueIsAdjusting() == false) {
 
             if (list.getSelectedIndex() == -1) {
@@ -96,10 +95,24 @@ public class SettingsView extends javax.swing.JDialog {
         list.setModel(listModel);
         list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(list);
+        list.addListSelectionListener(new ListSelectionListener(){
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                selectedProvChanged(e);
+            }
+        });
+        list.setCellRenderer(new BackendProviderRenderer());
 
         editPanel.setMinimumSize(new java.awt.Dimension(80, 10));
+        editPanel.setLayout(new javax.swing.BoxLayout(editPanel, javax.swing.BoxLayout.Y_AXIS));
 
         addButton.setText("+");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
 
         removeButton.setText("-");
         removeButton.setEnabled(false);
@@ -177,9 +190,9 @@ public class SettingsView extends javax.swing.JDialog {
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        model.providerList = new ArrayList<>();
+        mainViewModel.providerList = new ArrayList<>();
         for (Enumeration<BackendProvider> e = listModel.elements(); e.hasMoreElements();)
-            model.providerList.add(e.nextElement());
+            mainViewModel.providerList.add(e.nextElement());
         
         this.dispose();
     }//GEN-LAST:event_formWindowClosing
@@ -187,6 +200,11 @@ public class SettingsView extends javax.swing.JDialog {
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
         formWindowClosing(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_closeButtonActionPerformed
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        AddBackendProviderView av = new AddBackendProviderView(this);
+        setListModel();
+    }//GEN-LAST:event_addButtonActionPerformed
 
    
     

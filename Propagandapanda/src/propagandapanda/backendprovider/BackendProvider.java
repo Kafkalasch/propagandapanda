@@ -14,56 +14,70 @@ import javax.swing.JPanel;
  *
  * @author Michi
  */
-public interface BackendProvider extends Serializable{
+public abstract class BackendProvider implements Serializable{
+    
+    public BackendProvider(){}
     
     /**
      * 
      * @param text can be an empty String
      * @param header can be an empty String
      */
-    public void newPost(String text, String header);
+    public abstract void newPost(String text, String header);
     
     /**
      * 
      * @param photo
      * @return true if file is suitable
      */
-    public boolean addPhoto(File photo);
+    public abstract boolean addPhoto(File photo);
     
     /**
      * 
      * @param photo
      * @return true if uri could be read and file is suitable
      */
-    public boolean addPhoto(URI photo);
+    public boolean addPhoto(URI photo){
+        File file = null;
+        
+        // TODO: download Photo here
+        
+        return addPhoto(file);
+    }
     
     /**
      * 
      * @param photo
      * @return true if file is suitable
      */
-    public boolean addVideo(File photo);
+    public abstract boolean addVideo(File photo);
     
     /**
      * 
      * @param photo
      * @return true if uri could be read and file is suitable
      */
-    public boolean addVideo(URI photo);
+    public boolean addVideo(URI photo){
+        File file = null;
+        
+        // TODO: download Video here
+        
+        return addVideo(file);
+    }
     
     /**
-     * 
+     * Die neuen Infos sind Selbstständig aus den hergebebenen DetailPanel, bzw Statuspanel zu holen.
      * @return
      * @throws SendException 
      */
-    public boolean send();
+    public abstract boolean send();
     
     /**
      * Panel mit TextInfos. Wird nach newPost(text, header) aufgerufen
      * hier wird nochmal feinschliff am text begangen. auch sollen constraints wie zeichenlimitierungen angezeigt werden etc.
      * @return 
      */
-    public JPanel getDetailPanel();
+    public abstract JPanel getDetailPanel();
     
     /**
      * Panel mit SendeInfos. Wird nach send() aufgerufen.
@@ -71,21 +85,22 @@ public interface BackendProvider extends Serializable{
      * Bei positivem Versand soll hier der Link zu dem Post oder ähnliches stehen.
      * @return 
      */
-    public JPanel getStatusPanel();
+    public abstract JPanel getStatusPanel();
     
     /**
      * Panel zum Editieren von Verbindungsinfos.
      * 
      * Zumindest der Name sollte editierbar sein.
      */
-    public JPanel getEditPanel();
+    public abstract JPanel getEditPanel();
     
     /**
-     * Panel mit Verbindungsinfos usw. zum Erstellen einer neuen Instanz
-     * Kann auch einfach getEditPanel() aufrufen.
+     * Panel mit Verbindungsinfos usw zum Erstellen einer neuen Instanz
      * @return 
      */
-    public JPanel getAddPanel();
+    public JPanel getAddPanel(){
+        return getEditPanel();
+    }
     
     /**
      * Gibt den Namen dieser einen Instanz zurück.
@@ -94,6 +109,11 @@ public interface BackendProvider extends Serializable{
      * 
      * @return 
      */
-    public String getName();
+    public abstract String getName();
+    
+    @Override
+    public String toString(){
+        return getName();
+    }
     
 }

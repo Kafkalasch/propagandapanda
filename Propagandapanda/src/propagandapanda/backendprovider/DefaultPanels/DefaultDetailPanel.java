@@ -27,13 +27,11 @@ public class DefaultDetailPanel extends JPanel{
     
     /**
      * Ein Standard-DeatailPanel das verwendet werden kann.
-     * Es kann auch erweitert bzw. davon abgeleitet werden. 
-     * Durch die Übergabe von MutableStrings werden diese aktuell gehalten werden,
-     * falls diese in den zugehörigen Feldern verändert werden.
-     * @param header wird aktuell gehalten, falls verändert
-     * @param text wird aktuell gehalten, falls verändert
+     * Es kann auch erweitert bzw. davon abgeleitet werden. .
+     * @param header 
+     * @param text 
      */
-    public DefaultDetailPanel(MutableString header, MutableString text){
+    public DefaultDetailPanel(String header, String text){
         super();
         setLayout(new GridBagLayout());
         addHeaderLine(header);
@@ -43,17 +41,23 @@ public class DefaultDetailPanel extends JPanel{
     /**
      * Ein Standard-DeatailPanel das verwendet werden kann.
      * Es kann auch erweitert bzw. davon abgeleitet werden. 
-     * Durch die Übergabe von MutableStrings werden diese aktuell gehalten werden,
-     * falls diese in den zugehörigen Feldern verändert werden.
-     * @param text wird aktuell gehalten, falls verändert
+     * @param text
      */
-    public DefaultDetailPanel(MutableString text){
+    public DefaultDetailPanel(String text){
         super();
         setLayout(new GridBagLayout());
         addTextArea(text);
     }
     
-    private void addHeaderLine(MutableString header){
+    public String getHeader(){
+        return headerField.getText();
+    }
+    
+    public String getText(){
+        return textArea.getText();
+    }
+    
+    private void addHeaderLine(String header){
         JLabel lab = new JLabel("Header:");
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
@@ -62,8 +66,7 @@ public class DefaultDetailPanel extends JPanel{
         c.anchor = GridBagConstraints.LINE_START;
         this.add(lab, c);
         
-        headerField = new JTextField(header.getString());
-        headerField.getDocument().addDocumentListener(new KeepValueUpToDate(header));
+        headerField = new JTextField(header);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 1;
@@ -72,7 +75,7 @@ public class DefaultDetailPanel extends JPanel{
         this.add(headerField, c);
     }
     
-    private void addTextArea(MutableString text){
+    private void addTextArea(String text){
         JLabel lab = new JLabel("Text:");
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
@@ -81,7 +84,7 @@ public class DefaultDetailPanel extends JPanel{
         c.anchor = GridBagConstraints.LINE_START;
         this.add(lab, c);
         
-        charCount = new JLabel("(" + text.getString().length()+")");
+        charCount = new JLabel("(" + text.length()+")");
         c = new GridBagConstraints();
         c.gridx = 1;
         c.gridy = 1;
@@ -89,10 +92,9 @@ public class DefaultDetailPanel extends JPanel{
         c.anchor = GridBagConstraints.LINE_START;
         this.add(charCount, c);
         
-        textArea = new JTextArea(text.getString());
+        textArea = new JTextArea(text);
         textArea.setRows(10);
         textArea.getDocument().addDocumentListener(new TextAreaListener());
-        textArea.getDocument().addDocumentListener(new KeepValueUpToDate(text));
         JScrollPane cp = new JScrollPane(textArea);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;

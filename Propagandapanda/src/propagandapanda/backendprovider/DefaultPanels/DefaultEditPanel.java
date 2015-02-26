@@ -7,6 +7,9 @@ package propagandapanda.backendprovider.DefaultPanels;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -55,5 +58,7 @@ public class DefaultEditPanel extends JPanel{
         c.weightx = 1;
         this.add(nameField, c);
     }
+    
+    
     
 }

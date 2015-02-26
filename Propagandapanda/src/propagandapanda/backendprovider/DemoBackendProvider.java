@@ -10,7 +10,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.io.File;
-import java.net.URI;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -22,35 +21,31 @@ import propagandapanda.backendprovider.DefaultPanels.MutableString;
  * @author Michi
  */
 @SuppressWarnings("serial")
-public class DemoBackendProvider implements BackendProvider{
+public class DemoBackendProvider extends BackendProvider{
 
     private MutableString name = new MutableString("Demo");
-    private MutableString header = null;
-    private MutableString text = null;
-    
+    private String header = null;
+    private String text = null;
+    private DefaultDetailPanel detailPanel = null;
     
     
     @Override
     public void newPost(String text, String header) {
-        this.text = new MutableString(text);
-        this.header = new MutableString(header);
+        this.text = text;
+        this.header = header;
     }
 
     @Override
     public boolean addPhoto(File photo) { return false; }
 
-    @Override
-    public boolean addPhoto(URI photo) { return false; }
 
     @Override
     public boolean addVideo(File photo) { return false; }
 
-    @Override
-    public boolean addVideo(URI photo) { return false; }
 
     @Override
     public boolean send() {
-        System.out.println(header+"\n"+text);
+        System.out.println(detailPanel.getHeader()+":\n"+detailPanel.getText());
         return true;
     }
 
@@ -67,7 +62,8 @@ public class DemoBackendProvider implements BackendProvider{
     
     @Override
     public JPanel getDetailPanel() {
-        return new DefaultDetailPanel(header, text);
+        detailPanel = new DefaultDetailPanel(header, text);
+        return detailPanel;
     }
 
     @Override
@@ -75,11 +71,6 @@ public class DemoBackendProvider implements BackendProvider{
         return new DefaultEditPanel(name);
     }
 
-    @Override
-    public JPanel getAddPanel() {
-        JPanel ret = new JPanel();
-        ret.add(new JButton("This ist nur eine Demodarstellung - Add"));
-        return ret;}
 
     @Override
     public String getName() {

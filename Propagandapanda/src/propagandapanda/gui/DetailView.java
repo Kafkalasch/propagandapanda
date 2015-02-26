@@ -8,6 +8,8 @@ package propagandapanda.gui;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -28,22 +30,30 @@ import propagandapanda.backendprovider.BackendProvider;
 public class DetailView extends javax.swing.JFrame {
 
     private HashMap<JCheckBox, BackendProvider> cb2prov;
+    private HashMap<JCheckBox, JPanel> cb2panel;
+    private int activeCheckBoxes = 0;
     /**
      * Creates new form DetailView
      * @param provs
      */
     public DetailView(ArrayList<BackendProvider> provs) {
         initComponents();
-        cb2prov = new HashMap<>((int) (provs.size()/0.75 + 1));
+        int capacity = (int) (provs.size()/0.75 + 1);
+        cb2prov = new HashMap<>(capacity);
+        cb2panel = new HashMap<>(capacity);
         JPanel pan;
         JCheckBox cb;
+        JCheckBoxListener listener = new JCheckBoxListener();
         for(BackendProvider prov : provs){
             pan = new JPanel();
             pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
             pan.setBorder(new TitledBorder(prov.getName()));
             pan.add(prov.getDetailPanel());
             cb = new JCheckBox("Senden", true);
+            activeCheckBoxes++;
+            cb.addItemListener(listener);
             cb2prov.put(cb, prov);
+            cb2panel.put(cb, pan);
             detailPanel.add(pan);
             detailPanel.add(cb);
             detailPanel.add(new JToolBar.Separator());
@@ -118,14 +128,19 @@ public class DetailView extends javax.swing.JFrame {
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
         detailPanel.removeAll();
+        activeCheckBoxes = 0;
+        sendButton.setEnabled(false);
         JPanel pan;
         BackendProvider prov;
         boolean send;
-        HashMap<JCheckBox, BackendProvider> map = new HashMap<>();
+        HashMap<JCheckBox, BackendProvider> tmpCb2prov = new HashMap<>();
+        HashMap<JCheckBox, JPanel> tmpCb2panel = new HashMap<>();
         JCheckBox cb;
+        JCheckBoxListener listener = new JCheckBoxListener();
         for(Entry<JCheckBox, BackendProvider> e : cb2prov.entrySet()){
             if(e.getKey().isSelected())
             {
+                cb = null;
                 prov = e.getValue();
                 send = prov.send();
                 pan = new JPanel();
@@ -133,32 +148,70 @@ public class DetailView extends javax.swing.JFrame {
                 pan.setBorder(new TitledBorder(prov.getName()));
                 pan.add(prov.getStatusPanel());
                 pan.setAlignmentX(Component.CENTER_ALIGNMENT);
-                detailPanel.add(pan);
+                
                 if(!send){
-                    cb = new JCheckBox("Senden");
-                    map.put(cb, prov);
+                    cb = new JCheckBox("Senden", true);
+                    activeCheckBoxes++;
+                    cb.addItemListener(listener);
+                    tmpCb2prov.put(cb, prov);
+                    tmpCb2panel.put(cb, pan);
                 }
-                detailPanel.add(new JToolBar.Separator());
+            }else{
+                cb = e.getKey();
+                pan = cb2panel.get(cb);
+                tmpCb2prov.put(cb, cb2prov.get(cb));
+                tmpCb2panel.put(cb, pan);
             }
+            detailPanel.add(pan);
+            if(cb != null)
+                detailPanel.add(cb);
+            detailPanel.add(new JToolBar.Separator());
         }
         
-        cb2prov = map;
-        if(map.isEmpty()){
+        cb2prov = tmpCb2prov;
+        cb2panel = tmpCb2panel;
+        if(tmpCb2prov.isEmpty()){
+            sendButton.setEnabled(true);
             sendButton.setText("Schließen");
             for( ActionListener al : sendButton.getActionListeners() ) {
                 sendButton.removeActionListener( al );
             }
             sendButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                closeButtonActionPerformed();
-            }
-        });
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    closeButtonActionPerformed();
+                }
+            });
             
-        }
+        }else if(activeCheckBoxes > 0)
+            sendButton.setEnabled(true);
+        
+        detailPanel.revalidate();
+        detailPanel.repaint();
+        
     }//GEN-LAST:event_sendButtonActionPerformed
 
     public void closeButtonActionPerformed(){
         this.dispose();
+    }
+    
+    private class JCheckBoxListener implements ItemListener{
+
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            JCheckBox cb = (JCheckBox) e.getItem();
+            if(cb.isSelected()){
+               activeCheckBoxes++;
+               if(activeCheckBoxes > 0){
+                   sendButton.setEnabled(true);
+               }
+            }else{
+                activeCheckBoxes--;
+                if(activeCheckBoxes == 0){
+                    sendButton.setEnabled(false);
+                }
+            }
+        }
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

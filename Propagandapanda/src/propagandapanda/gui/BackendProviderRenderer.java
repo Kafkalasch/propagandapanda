@@ -15,7 +15,7 @@ import propagandapanda.backendprovider.BackendProvider;
  *
  * @author Michi
  */
-public class BackendProviderRenderer extends JLabel implements ListCellRenderer<BackendProvider>{
+public class BackendProviderRenderer extends JLabel implements ListCellRenderer{
     
     public BackendProviderRenderer(){
         setOpaque(true);
@@ -60,7 +60,7 @@ public class BackendProviderRenderer extends JLabel implements ListCellRenderer<
 
 
     @Override
-    public Component getListCellRendererComponent(JList<? extends BackendProvider> list, BackendProvider value, int index, boolean isSelected, boolean cellHasFocus) {
+    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         //Get the selected index. (The index param isn't
         //always valid, so just use the value.)
         
@@ -74,8 +74,9 @@ public class BackendProviderRenderer extends JLabel implements ListCellRenderer<
 
         //Set the icon and text.  If icon was null, say so.
         setFont(list.getFont());
-        setText(value.getName());
+        setText(((BackendProvider)value).getName());
         return this;
     }
+
 
 }

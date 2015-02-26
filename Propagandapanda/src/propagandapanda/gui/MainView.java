@@ -43,9 +43,10 @@ public class MainView extends javax.swing.JFrame {
         cb2prov = new HashMap<>((int) (model.providerList.size()/0.75 + 1));
         providerPanel.removeAll();
         JCheckBox cb;
+        JCheckBoxListener listener = new JCheckBoxListener();
         for(BackendProvider prov : model.providerList){
             cb = new JCheckBox(prov.getName(), false);
-            cb.addItemListener(new JCheckBoxListener());
+            cb.addItemListener(listener);
             cb2prov.put(cb, prov);
             providerPanel.add(cb);
         }
@@ -206,7 +207,6 @@ public class MainView extends javax.swing.JFrame {
 
     private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsButtonActionPerformed
         SettingsView sv = new SettingsView(this);
-        this.model = sv.model;
         UpdateCheckBoxes();
     }//GEN-LAST:event_settingsButtonActionPerformed
 

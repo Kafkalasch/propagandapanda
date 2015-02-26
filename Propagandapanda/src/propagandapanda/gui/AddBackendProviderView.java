@@ -5,7 +5,15 @@
  */
 package propagandapanda.gui;
 
+import java.awt.event.WindowEvent;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import javax.swing.DefaultListModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import propagandapanda.MainViewModel;
+import propagandapanda.backendprovider.BackendProvider;
 
 /**
  *
@@ -14,15 +22,51 @@ import propagandapanda.MainViewModel;
 public class AddBackendProviderView extends javax.swing.JDialog {
 
     public final MainViewModel mainViewModel;
+    
+    private final DefaultListModel<String> listModel;
+    private BackendProvider backendProvider = null;
     /**
      * Creates new form AddBackendProviderView
      */
     public AddBackendProviderView(SettingsView sv ) {
         super(sv, true);
-        mainViewModel = sv.model;
+        mainViewModel = sv.mainViewModel;
+        listModel = new DefaultListModel<>();
+        for(String prov : mainViewModel.possibleProvider.getNames())
+            listModel.addElement(prov);
+        
         initComponents();
+        this.setVisible(true);
     }
 
+    public BackendProvider getBackendProvider(){
+        return backendProvider;
+    }
+    
+    private void selectedProvChanged(ListSelectionEvent e) {
+//        if (e.getValueIsAdjusting() == false) {
+
+            if (list.getSelectedIndex() == -1) {
+                //No selection
+                addPanel.removeAll();
+                addPanel.revalidate();
+                addPanel.repaint();
+            } else {
+            //Selection
+                addPanel.removeAll();
+                try {
+                    backendProvider = mainViewModel.possibleProvider.getConstructor(list.getSelectedValue()).newInstance();
+                } catch (InstantiationException | IllegalAccessException | 
+                        IllegalArgumentException | InvocationTargetException ex) {
+                    new FatalErrorWindow(ex);
+                } 
+                addPanel.add(backendProvider.getAddPanel());
+                addPanel.revalidate();
+                addPanel.repaint();
+            }
+//        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,14 +83,28 @@ public class AddBackendProviderView extends javax.swing.JDialog {
         saveButton = new javax.swing.JButton();
         closeButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Add Channel"));
 
+        list.setModel(listModel);
         list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(list);
+        list.addListSelectionListener(new ListSelectionListener(){
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                selectedProvChanged(e);
+            }
+        });
 
         addPanel.setMinimumSize(new java.awt.Dimension(80, 10));
+        addPanel.setLayout(new javax.swing.BoxLayout(addPanel, javax.swing.BoxLayout.Y_AXIS));
 
         saveButton.setText("Save");
         saveButton.addActionListener(new java.awt.event.ActionListener() {
@@ -116,12 +174,17 @@ public class AddBackendProviderView extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
-        
+        formWindowClosing(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_closeButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        // TODO add your handling code here:
+       mainViewModel.providerList.add(backendProvider);
+       formWindowClosing(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        this.dispose();
+    }//GEN-LAST:event_formWindowClosing
 
    
 

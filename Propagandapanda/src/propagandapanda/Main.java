@@ -7,6 +7,7 @@
 package propagandapanda;
 
 import java.util.ArrayList;
+import propagandapanda.backendprovider.BackendProvider;
 import propagandapanda.backendprovider.DemoBackendProvider;
 import propagandapanda.gui.FatalErrorWindow;
 import propagandapanda.gui.MainView;
@@ -22,12 +23,13 @@ public class Main {
    */
   public static void main(String[] args) {
 //     try{
-         MainViewModel mvm = new MainViewModel(null);
+         ArrayList<Class<? extends BackendProvider>> list = new ArrayList<>();
+         
+         // add all wanted Provider here.
+         list.add(DemoBackendProvider.class);
+         
+         MainViewModel mvm = new MainViewModel(new PossibleProvider(list));
          mvm.providerList = new ArrayList<>();
-         mvm.providerList.add(new DemoBackendProvider());
-         mvm.providerList.add(new DemoBackendProvider());
-         mvm.providerList.add(new DemoBackendProvider());
-         mvm.providerList.add(new DemoBackendProvider());
          mvm.providerList.add(new DemoBackendProvider());
          mvm.providerList.add(new DemoBackendProvider());
          mvm.providerList.add(new DemoBackendProvider());

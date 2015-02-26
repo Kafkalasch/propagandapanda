@@ -18,11 +18,11 @@ import propagandapanda.gui.FatalErrorWindow;
  * @author Michi
  */
 public class PossibleProvider {
-    private HashMap<String, Constructor<BackendProvider>> map;
+    private HashMap<String, Constructor<? extends BackendProvider>> map;
     
-    public PossibleProvider(Collection<Class<BackendProvider>> providerClasses){
+    public PossibleProvider(Collection<Class<? extends BackendProvider>> providerClasses){
         map = new HashMap<>((int) (1+ providerClasses.size()/0.75));
-        Constructor<BackendProvider> constr = null;
+        Constructor<? extends BackendProvider> constr = null;
         String name;
         for(Class c : providerClasses){
             try {
@@ -35,13 +35,18 @@ public class PossibleProvider {
                 new FatalErrorWindow(ex);
             }
         }
+        
     }
     
-    public HashMap<String, Constructor<BackendProvider>> getConstructors(){
+    public HashMap<String, Constructor<? extends BackendProvider>> getConstructors(){
         return map;
     }
     
     public Set<String> getNames(){
         return map.keySet();
+    }
+    
+    public Constructor<? extends BackendProvider> getConstructor(String name){
+        return map.get(name);
     }
 }

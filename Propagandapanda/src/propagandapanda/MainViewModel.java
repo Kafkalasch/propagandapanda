@@ -16,10 +16,10 @@ import java.util.ArrayList;
 public class MainViewModel {
     public ArrayList<BackendProvider> providerList;
     
-    private PossibleProvider possProvs;
+    public PossibleProvider possibleProvider;
     
     public MainViewModel(PossibleProvider possibleProvider){
-        this.possProvs = possibleProvider;
+        this.possibleProvider = possibleProvider;
     }
     
     
