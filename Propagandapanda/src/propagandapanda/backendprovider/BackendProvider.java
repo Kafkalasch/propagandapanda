@@ -58,13 +58,31 @@ public interface BackendProvider extends Serializable{
      * @return
      * @throws SendException 
      */
-    public boolean send() throws SendException;
+    public boolean send();
     
+    /**
+     * Panel mit TextInfos. Wird nach newPost(text, header) aufgerufen
+     * @return 
+     */
     public JPanel getDetailPanel();
     
+    /**
+     * Panel mit SendeInfos. Wird nach send() aufgerufen
+     * @return 
+     */
+    public JPanel getStatusPanel();
+    
+    /**
+     * Panel zum Editieren von Verbindungsinfos
+     */
     public JPanel getEditPanel();
     
+    /**
+     * Panel mit Verbindungsinfos usw.
+     * @return 
+     */
     public JPanel getAddPanel();
     
     public String getName();
+    
 }

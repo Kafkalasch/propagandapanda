@@ -6,6 +6,9 @@
 package propagandapanda.backendprovider;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.io.File;
 import java.net.URI;
 import javax.swing.BoxLayout;
@@ -43,8 +46,22 @@ public class DemoBackendProvider implements BackendProvider{
     public boolean addVideo(URI photo) { return false; }
 
     @Override
-    public boolean send() throws SendException {System.out.println(header+"\n"+text); return true;}
+    public boolean send() {
+        System.out.println(header+"\n"+text);
+        return true;
+    }
 
+    @Override
+    public JPanel getStatusPanel() {
+        JPanel ret = new JPanel();
+        ret.setLayout(new BoxLayout(ret, BoxLayout.Y_AXIS));
+        ret.add(new JButton("Alles gut verlaufen."));
+        ret.setBackground(Color.green);
+        ret.setMaximumSize(new Dimension(Short.MAX_VALUE, ret.getPreferredSize().height));
+        ret.setAlignmentX(Component.CENTER_ALIGNMENT);
+        return ret;
+    }
+    
     @Override
     public JPanel getDetailPanel() {
         JPanel ret = new JPanel();
@@ -72,5 +89,7 @@ public class DemoBackendProvider implements BackendProvider{
     public String getName() {
         return "DemoBackEndProvider";
     }
+    
+   
     
 }

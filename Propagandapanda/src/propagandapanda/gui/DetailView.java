@@ -5,6 +5,9 @@
  */
 package propagandapanda.gui;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -64,7 +67,7 @@ public class DetailView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Details"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         detailPanel.setLayout(new javax.swing.BoxLayout(detailPanel, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane1.setViewportView(detailPanel);
@@ -77,7 +80,7 @@ public class DetailView extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
         );
 
         sendButton.setText("Send");
@@ -114,19 +117,49 @@ public class DetailView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
+        detailPanel.removeAll();
+        JPanel pan;
+        BackendProvider prov;
+        boolean send;
+        HashMap<JCheckBox, BackendProvider> map = new HashMap<>();
+        JCheckBox cb;
         for(Entry<JCheckBox, BackendProvider> e : cb2prov.entrySet()){
             if(e.getKey().isSelected())
             {
-                try {
-                    e.getValue().send();
-                } catch (SendException ex) {
-                    System.out.println(ex.toString());
-                    // TODO do something here!
+                prov = e.getValue();
+                send = prov.send();
+                pan = new JPanel();
+                pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
+                pan.setBorder(new TitledBorder(prov.getName()));
+                pan.add(prov.getStatusPanel());
+                pan.setAlignmentX(Component.CENTER_ALIGNMENT);
+                detailPanel.add(pan);
+                if(!send){
+                    cb = new JCheckBox("Senden");
+                    map.put(cb, prov);
                 }
+                detailPanel.add(new JToolBar.Separator());
             }
+        }
+        
+        cb2prov = map;
+        if(map.isEmpty()){
+            sendButton.setText("Schließen");
+            for( ActionListener al : sendButton.getActionListeners() ) {
+                sendButton.removeActionListener( al );
+            }
+            sendButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeButtonActionPerformed();
+            }
+        });
+            
         }
     }//GEN-LAST:event_sendButtonActionPerformed
 
+    public void closeButtonActionPerformed(){
+        this.dispose();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel detailPanel;

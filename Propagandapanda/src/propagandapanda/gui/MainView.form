@@ -82,7 +82,7 @@
                           <Component id="headerField" max="32767" attributes="0"/>
                       </Group>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jSplitPane2" alignment="0" pref="288" max="32767" attributes="0"/>
+                      <Component id="jSplitPane2" alignment="0" pref="336" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
@@ -99,7 +99,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jSplitPane2" pref="322" max="32767" attributes="0"/>
+                  <Component id="jSplitPane2" pref="365" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -152,7 +152,7 @@
                       <Component id="providerPanel" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="nextButton" pref="64" max="32767" attributes="0"/>
+                          <Component id="nextButton" pref="107" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="settingsButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
