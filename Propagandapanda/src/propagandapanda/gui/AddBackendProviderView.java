@@ -5,17 +5,21 @@
  */
 package propagandapanda.gui;
 
+import propagandapanda.MainViewModel;
+
 /**
  *
  * @author Michi
  */
 public class AddBackendProviderView extends javax.swing.JDialog {
 
+    public final MainViewModel mainViewModel;
     /**
      * Creates new form AddBackendProviderView
      */
-    public AddBackendProviderView(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public AddBackendProviderView(SettingsView sv ) {
+        super(sv, true);
+        mainViewModel = sv.model;
         initComponents();
     }
 

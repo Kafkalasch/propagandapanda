@@ -24,7 +24,7 @@ import propagandapanda.backendprovider.DefaultPanels.MutableString;
 @SuppressWarnings("serial")
 public class DemoBackendProvider implements BackendProvider{
 
-    private MutableString name = new MutableString("DemoBackendProvider");
+    private MutableString name = new MutableString("Demo");
     private MutableString header = null;
     private MutableString text = null;
     

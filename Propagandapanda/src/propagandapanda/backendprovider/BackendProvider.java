@@ -15,6 +15,7 @@ import javax.swing.JPanel;
  * @author Michi
  */
 public interface BackendProvider extends Serializable{
+    
     /**
      * 
      * @param text can be an empty String
@@ -81,12 +82,16 @@ public interface BackendProvider extends Serializable{
     
     /**
      * Panel mit Verbindungsinfos usw. zum Erstellen einer neuen Instanz
+     * Kann auch einfach getEditPanel() aufrufen.
      * @return 
      */
     public JPanel getAddPanel();
     
     /**
      * Gibt den Namen dieser einen Instanz zurück.
+     * Muss von Anfang an funktionieren (also nicht null zurückgeben), auch wenn diese Instanz
+     * nur mit einem argumentlosen Konstruktor aufgerufen wurde.
+     * 
      * @return 
      */
     public String getName();

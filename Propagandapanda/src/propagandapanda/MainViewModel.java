@@ -16,4 +16,13 @@ import java.util.ArrayList;
 public class MainViewModel {
     public ArrayList<BackendProvider> providerList;
     
+    private PossibleProvider possProvs;
+    
+    public MainViewModel(PossibleProvider possibleProvider){
+        this.possProvs = possibleProvider;
+    }
+    
+    
+    
+    
 }

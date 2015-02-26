@@ -22,7 +22,7 @@ public class Main {
    */
   public static void main(String[] args) {
 //     try{
-         MainViewModel mvm = new MainViewModel();
+         MainViewModel mvm = new MainViewModel(null);
          mvm.providerList = new ArrayList<>();
          mvm.providerList.add(new DemoBackendProvider());
          mvm.providerList.add(new DemoBackendProvider());
