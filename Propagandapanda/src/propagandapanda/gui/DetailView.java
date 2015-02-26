@@ -19,7 +19,6 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.border.TitledBorder;
-import propagandapanda.SendException;
 import propagandapanda.backendprovider.BackendProvider;
 
 /**

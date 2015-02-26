@@ -22,7 +22,11 @@ public class DefaultEditPanel extends JPanel{
     private JTextField nameField = null;
     
     /**
-     * 
+     * /**
+     * Ein Standard-DeatailPanel das verwendet werden kann.
+     * Es kann auch erweitert bzw. davon abgeleitet werden. 
+     * Durch die Übergabe von MutableStrings werden diese aktuell gehalten werden,
+     * falls diese in den zugehörigen Feldern verändert werden.
      * @param name will keep name up to date if it will be edited in the corresponding textfield.
      */
     public DefaultEditPanel(MutableString name){

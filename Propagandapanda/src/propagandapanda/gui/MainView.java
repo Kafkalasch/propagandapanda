@@ -36,7 +36,7 @@ public class MainView extends javax.swing.JFrame {
         initComponents();
         this.model = model;
         UpdateCheckBoxes();
-        
+        setVisible(true);
     }
 
     private void UpdateCheckBoxes(){

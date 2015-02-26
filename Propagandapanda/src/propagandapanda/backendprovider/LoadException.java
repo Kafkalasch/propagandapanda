@@ -4,28 +4,28 @@
  * and open the template in the editor.
  */
 
-package propagandapanda;
+package propagandapanda.backendprovider;
 
 /**
  *
  * @author Michi
  */
-public class SendException extends Exception {
+public class LoadException extends Exception {
 
     /**
-     * Creates a new instance of <code>SendException</code> without detail
+     * Creates a new instance of <code>LoadException</code> without detail
      * message.
      */
-    public SendException() {
+    public LoadException() {
     }
 
     /**
-     * Constructs an instance of <code>SendException</code> with the specified
+     * Constructs an instance of <code>LoadException</code> with the specified
      * detail message.
      *
      * @param msg the detail message.
      */
-    public SendException(String msg) {
+    public LoadException(String msg) {
         super(msg);
     }
 }

@@ -25,6 +25,14 @@ public class DefaultDetailPanel extends JPanel{
     private JTextArea textArea = null;
     private JLabel charCount = null;
     
+    /**
+     * Ein Standard-DeatailPanel das verwendet werden kann.
+     * Es kann auch erweitert bzw. davon abgeleitet werden. 
+     * Durch die Übergabe von MutableStrings werden diese aktuell gehalten werden,
+     * falls diese in den zugehörigen Feldern verändert werden.
+     * @param header wird aktuell gehalten, falls verändert
+     * @param text wird aktuell gehalten, falls verändert
+     */
     public DefaultDetailPanel(MutableString header, MutableString text){
         super();
         setLayout(new GridBagLayout());
@@ -32,12 +40,17 @@ public class DefaultDetailPanel extends JPanel{
         addTextArea(text);
     }
     
-    public String getHeader(){
-        return headerField.getText();
-    }
-    
-    public String getText(){
-        return textArea.getText();
+    /**
+     * Ein Standard-DeatailPanel das verwendet werden kann.
+     * Es kann auch erweitert bzw. davon abgeleitet werden. 
+     * Durch die Übergabe von MutableStrings werden diese aktuell gehalten werden,
+     * falls diese in den zugehörigen Feldern verändert werden.
+     * @param text wird aktuell gehalten, falls verändert
+     */
+    public DefaultDetailPanel(MutableString text){
+        super();
+        setLayout(new GridBagLayout());
+        addTextArea(text);
     }
     
     private void addHeaderLine(MutableString header){
@@ -78,7 +91,7 @@ public class DefaultDetailPanel extends JPanel{
         
         textArea = new JTextArea(text.getString());
         textArea.setRows(10);
-        textArea.getDocument().addDocumentListener(new textAreaListener());
+        textArea.getDocument().addDocumentListener(new TextAreaListener());
         textArea.getDocument().addDocumentListener(new KeepValueUpToDate(text));
         JScrollPane cp = new JScrollPane(textArea);
         c = new GridBagConstraints();
@@ -91,7 +104,7 @@ public class DefaultDetailPanel extends JPanel{
     }
     
     
-    private class textAreaListener implements DocumentListener{
+    private class TextAreaListener implements DocumentListener{
 
         @Override
         public void insertUpdate(DocumentEvent e) {

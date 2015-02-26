@@ -22,7 +22,6 @@ public class Main {
    */
   public static void main(String[] args) {
 //     try{
-    
          MainViewModel mvm = new MainViewModel();
          mvm.providerList = new ArrayList<>();
          mvm.providerList.add(new DemoBackendProvider());
@@ -34,9 +33,6 @@ public class Main {
          mvm.providerList.add(new DemoBackendProvider());
          
          MainView mv = new MainView(mvm);
-         mv.setVisible(true);
-         
-//         
 //      }catch(Throwable e){
 //          FatalErrorWindow few = new FatalErrorWindow(e);
 //      }

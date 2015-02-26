@@ -14,7 +14,7 @@ import propagandapanda.gui.FatalErrorWindow;
  */
 
 /**
- *
+ * Hält den MutableString aktuell.
  * @author Michi
  */
 public class KeepValueUpToDate implements DocumentListener{
