@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import javax.swing.JCheckBox;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import propagandapanda.backendprovider.BackendProvider;
 import propagandapanda.*;
 
@@ -75,6 +77,7 @@ public class MainView extends javax.swing.JFrame {
         providerPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         textArea = new javax.swing.JTextArea();
+        charCount = new javax.swing.JLabel();
 
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
@@ -139,9 +142,13 @@ public class MainView extends javax.swing.JFrame {
 
         textArea.setColumns(20);
         textArea.setRows(5);
+        textArea.setText("");
+        textArea.getDocument().addDocumentListener(new TextAreaListener());
         jScrollPane3.setViewportView(textArea);
 
         jSplitPane2.setLeftComponent(jScrollPane3);
+
+        charCount.setText("(0)");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -154,7 +161,11 @@ public class MainView extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(headerField))
-                    .addComponent(jLabel2)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(charCount)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -166,7 +177,9 @@ public class MainView extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(headerField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(charCount))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
                 .addContainerGap())
@@ -233,7 +246,28 @@ public class MainView extends javax.swing.JFrame {
         
     }
 
+    private class TextAreaListener implements DocumentListener{
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            charCount.setText("("+textArea.getText().length()+")");
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            charCount.setText("("+textArea.getText().length()+")");
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            charCount.setText("("+textArea.getText().length()+")");
+        }
+        
+        
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel charCount;
     private javax.swing.JTextField headerField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

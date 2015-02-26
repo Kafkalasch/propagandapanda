@@ -5,18 +5,17 @@
  */
 package propagandapanda.backendprovider;
 
+import propagandapanda.backendprovider.DefaultPanels.DefaultDetailPanel;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.io.File;
 import java.net.URI;
-import java.util.Random;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import propagandapanda.backendprovider.DefaultPanels.DefaultEditPanel;
+import propagandapanda.backendprovider.DefaultPanels.MutableString;
 
 /**
  *
@@ -25,12 +24,16 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class DemoBackendProvider implements BackendProvider{
 
-    String header, text;
+    private MutableString name = new MutableString("DemoBackendProvider");
+    private MutableString header = null;
+    private MutableString text = null;
+    
+    
     
     @Override
     public void newPost(String text, String header) {
-        this.text = text;
-        this.header = header;
+        this.text = new MutableString(text);
+        this.header = new MutableString(header);
     }
 
     @Override
@@ -64,22 +67,12 @@ public class DemoBackendProvider implements BackendProvider{
     
     @Override
     public JPanel getDetailPanel() {
-        JPanel ret = new JPanel();
-        ret.setLayout(new BoxLayout(ret, BoxLayout.Y_AXIS));
-        ret.add(new JButton("This ist nur eine Demodarstellung"));
-        ret.add(new JTextField(header));
-        ret.add(new JTextArea(text));
-        return ret;
+        return new DefaultDetailPanel(header, text);
     }
 
     @Override
     public JPanel getEditPanel() {
-        JPanel ret = new JPanel();
-        if(new Random().nextInt(2) == 0)
-            ret.add(new JButton("This ist nur eine Demodarstellung - Edit"));
-        else
-            ret.add(new JLabel("This ist nur eine Demodarstellung - Edit"));
-        return ret;
+        return new DefaultEditPanel(name);
     }
 
     @Override
@@ -90,7 +83,7 @@ public class DemoBackendProvider implements BackendProvider{
 
     @Override
     public String getName() {
-        return "DemoBackEndProvider";
+        return name.getString();
     }
     
    
