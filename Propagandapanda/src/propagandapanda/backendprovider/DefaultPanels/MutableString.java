@@ -5,13 +5,15 @@
  */
 package propagandapanda.backendprovider.DefaultPanels;
 
+import java.io.Serializable;
+
 /**
  * Wird für den KeepValueUpToDate-DocumentListener verwendet.
  * Dieser kann dann diese Strings aktuell halten.
  * Diese Wrapper-Klasse ist notwendig, da Strings immutable sind.
  * @author Michi
  */
-public class MutableString {
+public class MutableString implements Serializable{
     
     private String str;
     

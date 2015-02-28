@@ -29,10 +29,10 @@ public class Main {
          list.add(DemoBackendProvider.class);
          
          MainViewModel mvm = new MainViewModel(new PossibleProvider(list));
-         mvm.providerList = new ArrayList<>();
-         mvm.providerList.add(new DemoBackendProvider());
-         mvm.providerList.add(new DemoBackendProvider());
-         mvm.providerList.add(new DemoBackendProvider());
+         mvm.load();
+//         mvm.providerList.add(new DemoBackendProvider());
+//         mvm.providerList.add(new DemoBackendProvider());
+//         mvm.providerList.add(new DemoBackendProvider());
          
          MainView mv = new MainView(mvm);
 //      }catch(Throwable e){

@@ -8,6 +8,7 @@ package propagandapanda.gui;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -84,7 +85,12 @@ public class MainView extends javax.swing.JFrame {
         jTextArea2.setRows(5);
         jScrollPane2.setViewportView(jTextArea2);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("PropagandaPanda"));
 
@@ -143,7 +149,6 @@ public class MainView extends javax.swing.JFrame {
 
         textArea.setColumns(20);
         textArea.setRows(5);
-        textArea.setText("");
         textArea.getDocument().addDocumentListener(new TextAreaListener());
         jScrollPane3.setViewportView(textArea);
 
@@ -217,14 +222,19 @@ public class MainView extends javax.swing.JFrame {
         ArrayList<BackendProvider> activeProvider = new ArrayList<>();
         for(Entry<JCheckBox, BackendProvider> e : cb2prov.entrySet()){
             if(e.getKey().isSelected()){
-                e.getValue().newPost(text, header);
+                e.getValue().newPost(text, header, model.masterPassword);
                 activeProvider.add(e.getValue());
             }
         }
         
         new DetailView(activeProvider);
-        this.dispose();
+        this.formWindowClosing(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_nextButtonActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        this.model.save();
+        this.dispose();
+    }//GEN-LAST:event_formWindowClosing
 
     private class JCheckBoxListener implements ItemListener{
 

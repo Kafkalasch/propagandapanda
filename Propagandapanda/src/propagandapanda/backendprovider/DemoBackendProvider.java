@@ -30,9 +30,10 @@ public class DemoBackendProvider extends BackendProvider{
     
     
     @Override
-    public void newPost(String text, String header) {
+    public void newPost(String text, String header, String masterPassword) {
         this.text = text;
         this.header = header;
+        this.masterPassword = masterPassword;
     }
 
     @Override

@@ -16,14 +16,17 @@ import javax.swing.JPanel;
  */
 public abstract class BackendProvider implements Serializable{
     
+    protected transient String masterPassword;
+    
     public BackendProvider(){}
     
     /**
      * 
      * @param text can be an empty String
      * @param header can be an empty String
+     * @param masterPassword could be null or an empty String. Haven't decided yet.
      */
-    public abstract void newPost(String text, String header);
+    public abstract void newPost(String text, String header, String masterPassword);
     
     /**
      * 
