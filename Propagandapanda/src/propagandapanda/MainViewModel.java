@@ -42,12 +42,12 @@ public class MainViewModel {
             Files.createDirectories(path);
 
             File f = new File(path.toString() + File.separator + "savedata");
-            if(f.exists())
-                f.delete();
+//            if(f.exists())
+//                f.delete();
 
             f.createNewFile();
 
-            ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)));
+            ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f, false)));
             
             oos.writeObject(providerList);
             oos.close();
@@ -68,11 +68,8 @@ public class MainViewModel {
         
         try{
             ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
-
-           
-            
             providerList = (ArrayList<BackendProvider>) ois.readObject();
-
+            ois.close();
         }catch(Exception ex){
             ErrorWindow err = new ErrorWindow(owner, "Laden war nicht möglich!");
             err.addErrorMessage(ex);
