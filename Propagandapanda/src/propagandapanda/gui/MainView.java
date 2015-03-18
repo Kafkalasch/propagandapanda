@@ -222,7 +222,7 @@ public class MainView extends javax.swing.JFrame {
         ArrayList<BackendProvider> activeProvider = new ArrayList<>();
         for(Entry<JCheckBox, BackendProvider> e : cb2prov.entrySet()){
             if(e.getKey().isSelected()){
-                e.getValue().newPost(text, header, model.masterPassword);
+                e.getValue().newPost(text, header, model.passwordSecurer);
                 activeProvider.add(e.getValue());
             }
         }

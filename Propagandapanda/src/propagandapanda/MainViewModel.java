@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import propagandapanda.backendprovider.BackendProvider;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import propagandapanda.backendprovider.PasswordSecurer;
 import propagandapanda.gui.ErrorWindow;
 
 /**
@@ -24,12 +25,16 @@ public class MainViewModel {
     
     public PossibleProvider possibleProvider;
     
+    public PasswordSecurer passwordSecurer;
+    
     public String masterPassword = null;
     
     private JFrame owner = null;
     
-    public MainViewModel(PossibleProvider possibleProvider){
+    public MainViewModel(PossibleProvider possibleProvider)
+    {
         this.possibleProvider = possibleProvider;
+        this.passwordSecurer = new PasswordSecurer(null);
     }
     
     public void setOwner(JFrame owner){

@@ -11,12 +11,32 @@ import java.io.Serializable;
 import java.net.URI;
 import javax.swing.JPanel;
 /**
- *
+ * Oberklasse aller Schnittstellen.
+ * 
+ * Alle Schnittstellen müssen von dieser Klasse erben.
+ * Es müssen auch alle Verbindungsinfos gespeichert werden, da die einzelnen
+ * Instanzen gespeichert und zukünftig wieder geladen werden. Somit soll
+ * eine Verbindung zu dem Medium ohne Output von außen wieder möglich sein.
+ * 
+ * Die Passwörter hierfür sollen mit dem übergebenen PasswordSecurer entschlüsselt und wieder 
+ * verschlüsselt werden, damit sie nicht im plain Text gespeichert werden.
+ * 
+ * Folgende Funktionsweise ist vorgesehen:
+ * Mit newPost(...) werden Texte und PasswordSecurer usw übergeben.
+ * Optional können mit addVideo(...) oder addPhoto(...) weitere Infos übergeben werden.
+ * mit getDetailPanel() soll ein Panel zur Verfügung gestellt werden, mit dem Nachkorrekturen möglich sind.
+ * mit send() wird versendet. Die Korrekturen sind selbstständig aus dem DetailPanel bzw. Statuspanel zu holen.
+ * danach wird mit getStatusPanel() der Status abgefragt. Siehe auch Kommentare bei den einzelnen Methoden.
+ * 
+ * In propagandapanda.backendprovider.defaultPanels gibts DefaultPanels die optional verwendet, bzw. von denen abgeleitet werden kann.
+ * 
  * @author Michi
  */
 public abstract class BackendProvider implements Serializable{
     
-    protected transient String masterPassword;
+    protected String name = null; // der Name der Verbindung
+    protected String encryptedPassword; // das für die Verbindung nötige Passwort
+    protected PasswordSecurer passwordSecurer;
     
     public BackendProvider(){}
     
@@ -24,19 +44,21 @@ public abstract class BackendProvider implements Serializable{
      * 
      * @param text can be an empty String
      * @param header can be an empty String
-     * @param masterPassword could be null or an empty String. Haven't decided yet.
+     * @param passwordSecurer damit können gespeicherte Passwörter entschlüsselt werden
      */
-    public abstract void newPost(String text, String header, String masterPassword);
+    public void newPost(String text, String header, PasswordSecurer passwordSecurer){
+        this.passwordSecurer = passwordSecurer;
+    }
     
     /**
-     * 
+     * Hier wird ein Foto übergeben. Kann, muss aber nicht funktionierend implementiert werden.
      * @param photo
      * @return true if file is suitable
      */
     public abstract boolean addPhoto(File photo);
     
     /**
-     * 
+     * Hier wird ein Foto übergeben. Kann, muss aber nicht funktionierend implementiert werden.
      * @param photo
      * @return true if uri could be read and file is suitable
      */
@@ -49,14 +71,14 @@ public abstract class BackendProvider implements Serializable{
     }
     
     /**
-     * 
+     * Hier wird ein Video übergeben. Kann, muss aber nicht funktionierend implementiert werden.
      * @param photo
      * @return true if file is suitable
      */
     public abstract boolean addVideo(File photo);
     
     /**
-     * 
+     * Hier wird ein Video übergeben. Kann, muss aber nicht funktionierend implementiert werden.
      * @param photo
      * @return true if uri could be read and file is suitable
      */
@@ -70,8 +92,7 @@ public abstract class BackendProvider implements Serializable{
     
     /**
      * Die neuen Infos sind Selbstständig aus den hergebebenen DetailPanel, bzw Statuspanel zu holen.
-     * @return
-     * @throws SendException 
+     * @return true falls senden erfolgreich war. 
      */
     public abstract boolean send();
     
@@ -80,7 +101,7 @@ public abstract class BackendProvider implements Serializable{
      * hier wird nochmal feinschliff am text begangen. auch sollen constraints wie zeichenlimitierungen angezeigt werden etc.
      * @return 
      */
-    public abstract JPanel getDetailPanel();
+    public abstract JPanel getDetailPanel(); 
     
     /**
      * Panel mit SendeInfos. Wird nach send() aufgerufen.
@@ -112,7 +133,13 @@ public abstract class BackendProvider implements Serializable{
      * 
      * @return 
      */
-    public abstract String getName();
+    public String getName(){
+        if(name == null){
+            return getClass().getName();
+        }
+        else return name;
+    };
+    
     
     @Override
     public String toString(){

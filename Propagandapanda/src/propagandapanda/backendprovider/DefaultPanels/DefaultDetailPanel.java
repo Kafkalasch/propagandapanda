@@ -16,7 +16,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 /**
- *
+ *Ein Standard-DeatailPanel das verwendet werden kann.
+ * Es kann auch erweitert bzw. davon abgeleitet werden. .
  * @author Michi
  */
 public class DefaultDetailPanel extends JPanel{
@@ -26,8 +27,7 @@ public class DefaultDetailPanel extends JPanel{
     private JLabel charCount = null;
     
     /**
-     * Ein Standard-DeatailPanel das verwendet werden kann.
-     * Es kann auch erweitert bzw. davon abgeleitet werden. .
+     * 
      * @param header 
      * @param text 
      */
@@ -39,8 +39,6 @@ public class DefaultDetailPanel extends JPanel{
     }
     
     /**
-     * Ein Standard-DeatailPanel das verwendet werden kann.
-     * Es kann auch erweitert bzw. davon abgeleitet werden. 
      * @param text
      */
     public DefaultDetailPanel(String text){
