@@ -1,0 +1,9 @@
+TODOS:
+PasswordSecurer - Methoden impelementieren.
+BackendProvider:
+- Mails - Michi arbeitet dran
+- Facebook
+- Twitter
+- Wordpress (FL Homepage)
+- Foswiki (HTU und diverse FS Homepages)
+- shh Upload eventuell?

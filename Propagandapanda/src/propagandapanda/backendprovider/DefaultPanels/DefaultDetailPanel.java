@@ -103,7 +103,9 @@ public class DefaultDetailPanel extends JPanel{
         this.add(cp, c);
     }
     
-    
+    /**
+     * hält den Zähler aktuell
+     */
     private class TextAreaListener implements DocumentListener{
 
         @Override

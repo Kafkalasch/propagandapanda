@@ -17,29 +17,34 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 /**
- *
+ * Ein Standard-DeatailPanel das verwendet werden kann.
+ * Es kann auch erweitert bzw. davon abgeleitet werden. 
+ * Durch die Übergabe von MutableStrings werden diese aktuell gehalten werden,
+ * falls diese in den zugehörigen Feldern verändert werden.
  * @author Michi
  */
 public class DefaultEditPanel extends JPanel{
     
     private JTextField nameField = null;
     
-    /**
-     * /**
-     * Ein Standard-DeatailPanel das verwendet werden kann.
-     * Es kann auch erweitert bzw. davon abgeleitet werden. 
-     * Durch die Übergabe von MutableStrings werden diese aktuell gehalten werden,
-     * falls diese in den zugehörigen Feldern verändert werden.
+   public DefaultEditPanel(){
+       super();
+        setLayout(new GridBagLayout());
+   }
+    
+   /**
+     * 
      * @param name will keep name up to date if it will be edited in the corresponding textfield.
      */
     public DefaultEditPanel(MutableString name){
-        super();
-        setLayout(new GridBagLayout());
+        this();
         addNameLine(name);
-        
     }
     
-    
+     /**
+     * 
+     * @param name will keep name up to date if it will be edited in the corresponding textfield.
+     */
     private void addNameLine(MutableString name){
         JLabel lab = new JLabel("Name of the channel:");
         GridBagConstraints c = new GridBagConstraints();

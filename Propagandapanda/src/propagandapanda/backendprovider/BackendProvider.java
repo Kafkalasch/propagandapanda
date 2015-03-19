@@ -55,7 +55,9 @@ public abstract class BackendProvider implements Serializable{
      * @param photo
      * @return true if file is suitable
      */
-    public abstract boolean addPhoto(File photo);
+    public boolean addPhoto(File photo){
+        return false;
+    }
     
     /**
      * Hier wird ein Foto übergeben. Kann, muss aber nicht funktionierend implementiert werden.
@@ -75,7 +77,9 @@ public abstract class BackendProvider implements Serializable{
      * @param photo
      * @return true if file is suitable
      */
-    public abstract boolean addVideo(File photo);
+    public boolean addVideo(File photo){
+        return false;
+    }
     
     /**
      * Hier wird ein Video übergeben. Kann, muss aber nicht funktionierend implementiert werden.
