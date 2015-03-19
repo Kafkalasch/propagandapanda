@@ -1,0 +1,18 @@
+TODOS:
+Security:
+PasswordSecurer - Methoden implementieren. und masterpassword und so in GUI einbauen
+
+BackendProvider:
+- Mails - Michi arbeitet dran
+- Facebook
+- Twitter
+- Wordpress (FL Homepage)
+- Foswiki (HTU und diverse FS Homepages)
+- shh Upload eventuell?
+
+GUI:
+Michi handled das. Sollte wer anderes sie erweitern wollen und bessere Dokumentation verlangen, bitte bescheid geben.
+
+
+Kontakte:
+Michi - michi@htu.at
