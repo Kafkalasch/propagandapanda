@@ -6,10 +6,12 @@
 
 package propagandapanda.backendprovider;
 
+import propagandapanda.PasswordSecurer;
 import java.io.File;
 import java.io.Serializable;
 import java.net.URI;
 import javax.swing.JPanel;
+import propagandapanda.backendprovider.DefaultPanels.MutableString;
 /**
  * Oberklasse aller Schnittstellen.
  * 
@@ -34,9 +36,8 @@ import javax.swing.JPanel;
  */
 public abstract class BackendProvider implements Serializable{
     
-    protected String name = null; // der Name der Verbindung
-    protected String encryptedPassword; // das für die Verbindung nötige Passwort
-    protected PasswordSecurer passwordSecurer;
+    
+    protected transient PasswordSecurer passwordSecurer;
     
     public BackendProvider(){}
     
@@ -137,12 +138,7 @@ public abstract class BackendProvider implements Serializable{
      * 
      * @return 
      */
-    public String getName(){
-        if(name == null){
-            return getClass().getName();
-        }
-        else return name;
-    };
+    public abstract String getName();
     
     
     @Override

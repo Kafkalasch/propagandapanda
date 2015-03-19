@@ -13,7 +13,6 @@ import java.nio.file.Paths;
 import propagandapanda.backendprovider.BackendProvider;
 import java.util.ArrayList;
 import javax.swing.JFrame;
-import propagandapanda.backendprovider.PasswordSecurer;
 import propagandapanda.gui.ErrorWindow;
 
 /**

@@ -5,6 +5,7 @@
  */
 package propagandapanda.backendprovider;
 
+import propagandapanda.PasswordSecurer;
 import propagandapanda.backendprovider.DefaultPanels.DefaultDetailPanel;
 import java.awt.Color;
 import java.awt.Component;
@@ -23,11 +24,14 @@ import propagandapanda.backendprovider.DefaultPanels.MutableString;
 @SuppressWarnings("serial")
 public class DemoBackendProvider extends BackendProvider{
 
-    private MutableString name = new MutableString("Demo");
+    MutableString name;
     private String header = null;
     private String text = null;
     private DefaultDetailPanel detailPanel = null;
     
+    public DemoBackendProvider(){
+        name = new MutableString("Demo");
+    }
     
     @Override
     public void newPost(String text, String header, PasswordSecurer pws) 
@@ -36,13 +40,6 @@ public class DemoBackendProvider extends BackendProvider{
         this.text = text;
         this.header = header;
     }
-
-    @Override
-    public boolean addPhoto(File photo) { return false; }
-
-
-    @Override
-    public boolean addVideo(File photo) { return false; }
 
 
     @Override
@@ -73,12 +70,13 @@ public class DemoBackendProvider extends BackendProvider{
         return new DefaultEditPanel(name);
     }
 
-
     @Override
-    public String getName() {
-        return name.getString();
-    }
-    
+    public String getName(){
+        if(name == null){
+            return getClass().getSimpleName();
+        }
+        else return name.getString();
+    };
    
     
 }

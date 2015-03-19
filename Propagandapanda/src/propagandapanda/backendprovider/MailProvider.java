@@ -5,11 +5,20 @@
  */
 package propagandapanda.backendprovider;
 
+import propagandapanda.PasswordSecurer;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.activation.*;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import propagandapanda.backendprovider.DefaultPanels.DefaultDetailPanel;
+import propagandapanda.backendprovider.DefaultPanels.DefaultEditPanel;
+import propagandapanda.backendprovider.DefaultPanels.MutableString;
 
 /**
  *
@@ -17,32 +26,65 @@ import javax.swing.JPanel;
  */
 public class MailProvider extends BackendProvider{
     
+    // Einstellungen
+    private MutableString name;
+    private MutableString to;
+    private MutableString from;
+    private MutableString smtpServ;
+    private MutableString username;
+    private MutableString encryptedPassword;
     
+    // Variabel
+    private String message;
+    private String subject;    
+    public MailProvider(){
+        name = new MutableString("E-Mail");
+        to = new MutableString("to@someone.at");
+        from = new MutableString("aglorious@person.at");
+        smtpServ = new MutableString("smtp.mail.at");
+        username = new MutableString("yourMama");
+        encryptedPassword = new MutableString("is...");
+//        to = "michihoefler@gmx.at";
+//        from = to;
+//        smtpServ = "mail.gmx.at";
+//        username = from;
+    }
     
     @Override
     public void newPost(String text, String header, PasswordSecurer passwordSecurer){
         super.newPost(text, header, passwordSecurer);
+        this.subject = header;
+        this.message = text;
         
+//        subject = "TEste Mail";
+//        message = "UNd, wie schauts aus?";
     }
 
     @Override
     public boolean send() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        sendMail();
+        return true;
     }
 
     @Override
     public JPanel getDetailPanel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return  new DefaultDetailPanel(subject, message);
     }
 
     @Override
     public JPanel getStatusPanel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JPanel ret = new JPanel();
+        ret.setLayout(new BoxLayout(ret, BoxLayout.Y_AXIS));
+        ret.add(new JButton("MAIL Test. Siehe System.out.println."));
+        ret.setBackground(Color.green);
+        ret.setMaximumSize(new Dimension(Short.MAX_VALUE, ret.getPreferredSize().height));
+        ret.setAlignmentX(Component.CENTER_ALIGNMENT);
+        return ret;
     }
 
     @Override
     public JPanel getEditPanel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new MailProviderEditPanel(name, to, from, smtpServ, username, encryptedPassword, passwordSecurer);
     }
     
     private int sendMail(){
@@ -59,16 +101,16 @@ public class MailProvider extends BackendProvider{
               // -- Create a new message --
               Message msg = new MimeMessage(session);
               // -- Set the FROM and TO fields --
-              msg.setFrom(new InternetAddress(from));
-              msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
+              msg.setFrom(new InternetAddress(from.getString()));
+              msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to.getString(), false));
               msg.setSubject(subject);
               msg.setText(message);
               // -- Set some other header information --
-              msg.setHeader("MyMail", "Mr. XYZ" );
+              //msg.setHeader("MyMail", "Mr. XYZ" );
               msg.setSentDate(new Date());
               // -- Send the message --
               Transport.send(msg);
-              System.out.println("Message sent to"+to+" OK." );
+              System.out.println("Message sent to"+to.getString()+" OK." );
               return 0;
         }
         catch (Exception ex)
@@ -79,14 +121,22 @@ public class MailProvider extends BackendProvider{
         }
   }
 
+    @Override
+    public String getName(){
+        if(name == null){
+            return getClass().getSimpleName();
+        }
+        else return name.getString();
+    };
+    
 // Also include an inner class that is used for authentication purposes
 
 private class SMTPAuthenticator extends javax.mail.Authenticator {
         @Override
         public PasswordAuthentication getPasswordAuthentication() {
-            String username =  "Java.Mail.CA@gmail.com";           // specify your email id here (sender's email id)
-            String password = "javamail";                                      // specify your password here
-            return new PasswordAuthentication(username, password);
+            String usr =  username.getString();           // specify your email id here (sender's email id)
+            String password = passwordSecurer.decryptPW(encryptedPassword.getString());  // specify your password here
+            return new PasswordAuthentication(usr, password);
         }
   }
 }

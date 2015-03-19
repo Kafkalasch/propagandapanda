@@ -9,6 +9,7 @@ package propagandapanda;
 import java.util.ArrayList;
 import propagandapanda.backendprovider.BackendProvider;
 import propagandapanda.backendprovider.DemoBackendProvider;
+import propagandapanda.backendprovider.MailProvider;
 import propagandapanda.gui.FatalErrorWindow;
 import propagandapanda.gui.MainView;
 
@@ -27,6 +28,7 @@ public class Main {
          
          // add all wanted Provider here.
          list.add(DemoBackendProvider.class);
+         list.add(MailProvider.class);
          
          MainViewModel mvm = new MainViewModel(new PossibleProvider(list));
          mvm.load();

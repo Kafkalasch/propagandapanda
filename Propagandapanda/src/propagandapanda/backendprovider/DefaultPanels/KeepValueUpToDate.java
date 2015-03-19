@@ -19,7 +19,7 @@ import propagandapanda.gui.FatalErrorWindow;
  */
 public class KeepValueUpToDate implements DocumentListener{
 
-    private MutableString value;
+    protected MutableString value;
     
     KeepValueUpToDate(MutableString value){
         this.value = value;
@@ -40,7 +40,7 @@ public class KeepValueUpToDate implements DocumentListener{
         Update(e);
     }
     
-    private void Update(DocumentEvent e){
+    protected void Update(DocumentEvent e){
         try {
             value.setString(e.getDocument().getText(0, e.getDocument().getLength()));
         } catch (BadLocationException ex) {

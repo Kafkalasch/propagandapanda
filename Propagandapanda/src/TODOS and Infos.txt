@@ -3,7 +3,7 @@ Security:
 PasswordSecurer - Methoden implementieren. und masterpassword und so in GUI einbauen
 
 BackendProvider:
-- Mails - Michi arbeitet dran
+- Mails - Michi arbeitet dran - funktionieren eig schon bissi, aber noch ohne PW Feld
 - Facebook
 - Twitter
 - Wordpress (FL Homepage)
