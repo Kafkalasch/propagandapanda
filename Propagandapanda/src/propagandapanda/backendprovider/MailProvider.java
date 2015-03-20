@@ -58,7 +58,9 @@ public class MailProvider extends BackendProvider{
     public void newPost(String text, String header, String masterPW){
         super.newPost(text, header, masterPW);
         this.subject = header;
-        this.message = praefix + "\n" + text + "\n" + postfix;
+        String prae = praefix.getString().equals("") ? "" : praefix.getString() + "\n";
+        String post = postfix.getString().equals("") ? "" : "\n" + postfix.getString();
+        this.message = prae + "\n" + text + "\n" + post;
         
     }
 
@@ -142,4 +144,29 @@ private class SMTPAuthenticator extends javax.mail.Authenticator {
             return new PasswordAuthentication(usr, password);
         }
   }
+
+    private class MailProviderEditPanel extends DefaultEditPanel{
+    
+        private String to;
+       private String from;
+       private String smtpServ;
+       private String username;
+       //inherits protected String encryptedPassword
+
+       public MailProviderEditPanel(MutableString name,
+               MutableString to, MutableString from, 
+               MutableString smtpServer, MutableString username,
+               MutableString encryptedPW, String pws,
+               MutableString praefix, MutableString postfix){
+           super();
+           addNameLine(name);
+           addLabelAndFieldLine("To:", to);
+           addLabelAndFieldLine("From:", from);
+           addLabelAndFieldLine("Username:", username);
+           addLabelAndSecureFieldLine("Password:", encryptedPW, pws);
+           addLabelAndFieldLine("Smtp server:", smtpServer);
+           addLabelAndTextArea("Praefix:", praefix);
+           addLabelAndTextArea("Postfix:", postfix);
+       }
+    }
 }

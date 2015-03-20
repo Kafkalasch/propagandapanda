@@ -20,7 +20,7 @@ import javax.swing.event.DocumentListener;
  * Es kann auch erweitert bzw. davon abgeleitet werden. .
  * @author Michi
  */
-public class DefaultDetailPanel extends JPanel{
+public class DefaultDetailPanel extends DefaultEditPanel{
     
     private JTextField headerField = null;
     private JTextArea textArea = null;
@@ -33,7 +33,6 @@ public class DefaultDetailPanel extends JPanel{
      */
     public DefaultDetailPanel(String header, String text){
         super();
-        setLayout(new GridBagLayout());
         addHeaderLine(header);
         addTextArea(text);
     }
@@ -43,7 +42,6 @@ public class DefaultDetailPanel extends JPanel{
      */
     public DefaultDetailPanel(String text){
         super();
-        setLayout(new GridBagLayout());
         addTextArea(text);
     }
     
@@ -59,7 +57,7 @@ public class DefaultDetailPanel extends JPanel{
         JLabel lab = new JLabel("Header:");
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
-        c.gridy = 0;
+        c.gridy = linecount;
         c.ipadx = 2;
         c.anchor = GridBagConstraints.LINE_START;
         this.add(lab, c);
@@ -68,16 +66,18 @@ public class DefaultDetailPanel extends JPanel{
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 1;
-        c.gridy = 0;
+        c.gridy = linecount;
         c.weightx = 1;
         this.add(headerField, c);
+        
+        linecount++;
     }
     
     private void addTextArea(String text){
         JLabel lab = new JLabel("Text:");
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
-        c.gridy = 1;
+        c.gridy = linecount;
         c.ipadx = 2;
         c.anchor = GridBagConstraints.LINE_START;
         this.add(lab, c);
@@ -85,7 +85,7 @@ public class DefaultDetailPanel extends JPanel{
         charCount = new JLabel("(" + text.length()+")");
         c = new GridBagConstraints();
         c.gridx = 1;
-        c.gridy = 1;
+        c.gridy = linecount;
         c.ipadx = 2;
         c.anchor = GridBagConstraints.LINE_START;
         this.add(charCount, c);
@@ -97,10 +97,12 @@ public class DefaultDetailPanel extends JPanel{
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
-        c.gridy = 2;
+        c.gridy = ++linecount;
         c.gridwidth = 2;
         c.weightx = 1;
         this.add(cp, c);
+        
+        linecount++;
     }
     
     /**

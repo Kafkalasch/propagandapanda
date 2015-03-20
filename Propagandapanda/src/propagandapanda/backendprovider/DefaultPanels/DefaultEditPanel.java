@@ -29,13 +29,14 @@ import propagandapanda.PasswordSecurer;
  */
 public class DefaultEditPanel extends JPanel{
     
-   int linecount = 0;
+   protected int linecount;
    
    
    
    public DefaultEditPanel(){
        super();
         setLayout(new GridBagLayout());
+        linecount = 0;
    }
     
    /**
