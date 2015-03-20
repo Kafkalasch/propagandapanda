@@ -24,7 +24,8 @@ public class MailProviderEditPanel extends DefaultEditPanel{
     public MailProviderEditPanel(MutableString name,
             MutableString to, MutableString from, 
             MutableString smtpServer, MutableString username,
-            MutableString encryptedPW, PasswordSecurer pws){
+            MutableString encryptedPW, String pws,
+            MutableString praefix, MutableString postfix){
         super();
         addNameLine(name);
         addLabelAndFieldLine("To:", to);
@@ -32,5 +33,7 @@ public class MailProviderEditPanel extends DefaultEditPanel{
         addLabelAndFieldLine("Username:", username);
         addLabelAndSecureFieldLine("Password:", encryptedPW, pws);
         addLabelAndFieldLine("Smtp server:", smtpServer);
+        addLabelAndTextArea("Praefix:", praefix);
+        addLabelAndTextArea("Postfix:", postfix);
     }
 }

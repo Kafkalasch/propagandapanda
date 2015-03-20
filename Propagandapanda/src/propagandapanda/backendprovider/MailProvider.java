@@ -33,6 +33,8 @@ public class MailProvider extends BackendProvider{
     private MutableString smtpServ;
     private MutableString username;
     private MutableString encryptedPassword;
+    private MutableString praefix;
+    private MutableString postfix;
     
     // Variabel
     private String message;
@@ -42,8 +44,10 @@ public class MailProvider extends BackendProvider{
         to = new MutableString("to@someone.at");
         from = new MutableString("aglorious@person.at");
         smtpServ = new MutableString("smtp.mail.at");
-        username = new MutableString("yourMama");
-        encryptedPassword = new MutableString("is...");
+        username = new MutableString("maxime mustermann");
+        encryptedPassword = new MutableString("");
+        praefix = new MutableString("");
+        postfix = new MutableString("");
 //        to = "michihoefler@gmx.at";
 //        from = to;
 //        smtpServ = "mail.gmx.at";
@@ -51,17 +55,16 @@ public class MailProvider extends BackendProvider{
     }
     
     @Override
-    public void newPost(String text, String header, PasswordSecurer passwordSecurer){
-        super.newPost(text, header, passwordSecurer);
+    public void newPost(String text, String header, String masterPW){
+        super.newPost(text, header, masterPW);
         this.subject = header;
-        this.message = text;
+        this.message = praefix + "\n" + text + "\n" + postfix;
         
-//        subject = "TEste Mail";
-//        message = "UNd, wie schauts aus?";
     }
 
     @Override
     public boolean send() {
+        
         sendMail();
         return true;
     }
@@ -84,7 +87,7 @@ public class MailProvider extends BackendProvider{
 
     @Override
     public JPanel getEditPanel() {
-        return new MailProviderEditPanel(name, to, from, smtpServ, username, encryptedPassword, passwordSecurer);
+        return new MailProviderEditPanel(name, to, from, smtpServ, username, encryptedPassword, masterPW, praefix, postfix);
     }
     
     private int sendMail(){
@@ -94,7 +97,7 @@ public class MailProvider extends BackendProvider{
               // -- Attaching to default Session, or we could start a new one --
               props.put("mail.transport.protocol", "smtp" );
               props.put("mail.smtp.starttls.enable","true" );
-              props.put("mail.smtp.host",smtpServ);
+              props.put("mail.smtp.host", smtpServ.getString());
               props.put("mail.smtp.auth", "true" );
               Authenticator auth = new SMTPAuthenticator();
               Session session = Session.getInstance(props, auth);
@@ -110,7 +113,7 @@ public class MailProvider extends BackendProvider{
               msg.setSentDate(new Date());
               // -- Send the message --
               Transport.send(msg);
-              System.out.println("Message sent to"+to.getString()+" OK." );
+              System.out.println("Message sent to "+to.getString()+" OK." );
               return 0;
         }
         catch (Exception ex)
@@ -135,7 +138,7 @@ private class SMTPAuthenticator extends javax.mail.Authenticator {
         @Override
         public PasswordAuthentication getPasswordAuthentication() {
             String usr =  username.getString();           // specify your email id here (sender's email id)
-            String password = passwordSecurer.decryptPW(encryptedPassword.getString());  // specify your password here
+            String password = PasswordSecurer.decryptPW(encryptedPassword.getString(), masterPW);  // specify your password here
             return new PasswordAuthentication(usr, password);
         }
   }

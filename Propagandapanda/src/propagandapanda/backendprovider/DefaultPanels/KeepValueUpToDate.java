@@ -1,10 +1,14 @@
 package propagandapanda.backendprovider.DefaultPanels;
 
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
+import javax.swing.text.JTextComponent;
 import propagandapanda.gui.FatalErrorWindow;
 
 /*
@@ -17,7 +21,7 @@ import propagandapanda.gui.FatalErrorWindow;
  * Hält den MutableString aktuell.
  * @author Michi
  */
-public class KeepValueUpToDate implements DocumentListener{
+public class KeepValueUpToDate implements FocusListener{
 
     protected MutableString value;
     
@@ -26,26 +30,13 @@ public class KeepValueUpToDate implements DocumentListener{
     }
 
     @Override
-    public void insertUpdate(DocumentEvent e) {
-        Update(e);
+    public void focusGained(FocusEvent e) {
     }
 
     @Override
-    public void removeUpdate(DocumentEvent e) {
-        Update(e);
-    }
-
-    @Override
-    public void changedUpdate(DocumentEvent e) {
-        Update(e);
-    }
-    
-    protected void Update(DocumentEvent e){
-        try {
-            value.setString(e.getDocument().getText(0, e.getDocument().getLength()));
-        } catch (BadLocationException ex) {
-            new FatalErrorWindow(ex);
+    public void focusLost(FocusEvent e) {
+        if(e.getComponent() instanceof JTextComponent){
+            value.setString( ((JTextComponent) e.getComponent()).getText());
         }
     }
-     
 }

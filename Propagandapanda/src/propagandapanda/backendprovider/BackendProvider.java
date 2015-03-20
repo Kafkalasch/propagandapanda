@@ -37,7 +37,7 @@ import propagandapanda.backendprovider.DefaultPanels.MutableString;
 public abstract class BackendProvider implements Serializable{
     
     
-    protected transient PasswordSecurer passwordSecurer;
+    protected transient String masterPW;
     
     public BackendProvider(){}
     
@@ -47,8 +47,8 @@ public abstract class BackendProvider implements Serializable{
      * @param header can be an empty String
      * @param passwordSecurer damit können gespeicherte Passwörter entschlüsselt werden
      */
-    public void newPost(String text, String header, PasswordSecurer passwordSecurer){
-        this.passwordSecurer = passwordSecurer;
+    public void newPost(String text, String header, String pw){
+        this.masterPW = pw;
     }
     
     /**

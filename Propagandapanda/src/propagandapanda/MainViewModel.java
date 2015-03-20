@@ -24,16 +24,13 @@ public class MainViewModel {
     
     public PossibleProvider possibleProvider;
     
-    public PasswordSecurer passwordSecurer;
-    
-    public String masterPassword = null;
-    
+    public String masterPW;
     private JFrame owner = null;
     
     public MainViewModel(PossibleProvider possibleProvider)
     {
         this.possibleProvider = possibleProvider;
-        this.passwordSecurer = new PasswordSecurer(null);
+        masterPW = "";
     }
     
     public void setOwner(JFrame owner){

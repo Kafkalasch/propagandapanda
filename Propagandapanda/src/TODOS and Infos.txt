@@ -3,7 +3,7 @@ Security:
 PasswordSecurer - Methoden implementieren. und masterpassword und so in GUI einbauen
 
 BackendProvider:
-- Mails - Michi arbeitet dran - funktionieren eig schon bissi, aber noch ohne PW Feld
+- Mails - Michi arbeitet dran - funktioniert. Es fehlt noch StatusPanel für Mails. Anhänge sind noch nicht möglich. Verbingscheck einbauen. Blindkopie und CC einbauen.
 - Facebook
 - Twitter
 - Wordpress (FL Homepage)
@@ -11,6 +11,7 @@ BackendProvider:
 - shh Upload eventuell?
 
 GUI:
+DefaultPanel wird noch verbessert und erweitert.
 Michi handled das. Sollte wer anderes sie erweitern wollen und bessere Dokumentation verlangen, bitte bescheid geben.
 
 

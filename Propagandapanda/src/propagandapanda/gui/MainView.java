@@ -53,6 +53,7 @@ public class MainView extends javax.swing.JFrame {
         }
         providerPanel.revalidate();
         providerPanel.repaint();
+        nextButton.setEnabled(false);
     }
     
     /**
@@ -222,7 +223,7 @@ public class MainView extends javax.swing.JFrame {
         ArrayList<BackendProvider> activeProvider = new ArrayList<>();
         for(Entry<JCheckBox, BackendProvider> e : cb2prov.entrySet()){
             if(e.getKey().isSelected()){
-                e.getValue().newPost(text, header, model.passwordSecurer);
+                e.getValue().newPost(text, header, model.masterPW);
                 activeProvider.add(e.getValue());
             }
         }
