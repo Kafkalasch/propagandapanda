@@ -60,7 +60,7 @@ public class MailProvider extends BackendProvider{
         this.subject = header;
         String prae = praefix.getString().equals("") ? "" : praefix.getString() + "\n";
         String post = postfix.getString().equals("") ? "" : "\n" + postfix.getString();
-        this.message = prae + "\n" + text + "\n" + post;
+        this.message = prae +  text +  post;
         
     }
 
