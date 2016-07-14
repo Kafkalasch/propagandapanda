@@ -13,7 +13,3 @@ BackendProvider:
 GUI:
 DefaultPanel wird noch verbessert und erweitert.
 Michi handled das. Sollte wer anderes sie erweitern wollen und bessere Dokumentation verlangen, bitte bescheid geben.
-
-
-Kontakte:
-Michi - michi@htu.at
